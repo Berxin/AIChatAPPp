@@ -1,5 +1,6 @@
 package com.aichatbox.app
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -7,6 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aichatbox.app.databinding.ActivityMainBinding
@@ -54,9 +56,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding.navigationView.setNavigationItemSelectedListener(this)
 
         // Setup Model Spinner
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, models)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.modelSpinner.adapter = adapter
+        val spinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, models)
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.modelSpinner.adapter = spinnerAdapter
 
         // Setup RecyclerView
         messageAdapter = MessageAdapter(this)
@@ -195,11 +197,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun updateSendButton() {
-        if (isStreaming) {
-            binding.sendButton.setIconResource(R.drawable.ic_stop)
-        } else {
-            binding.sendButton.setIconResource(R.drawable.ic_send)
-        }
+        val iconRes = if (isStreaming) R.drawable.ic_stop else R.drawable.ic_send
+        binding.sendButton.setImageResource(iconRes)
     }
 
     private fun scrollToBottom() {
